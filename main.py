@@ -7,13 +7,14 @@ df_processed = collector.load_data()
 
 # Ajouter donnée API sans label
 new_data = {
-    "timestamp": "2025-11-07T03:21:00",
-    "source_ip": "10.0.5.88",
-    "user_agent": "Python-urllib/3.9 BOT Scanner",
-    "response_time_ms": 900,
+    "timestamp": "2025-11-07T14:30:00",
+    "source_ip": "192.168.1.9",
+    "user_agent": "curl/7.81.0",
+    "response_time_ms": 400,
     "signature_valid": False,
-    "attempts": 12,
-    "geo": "RU"
+    "attempts": 3,
+    "geo": "FR"
+
 }
 
 collector.add_new_data(new_data)
@@ -36,6 +37,15 @@ result = detector.predict_df(api_data)
 print("\n=== Résultat Détecteur ===")
 print(result[['attack_probability', 'is_attack_pred']])
 
-# ✅ Réacteur (version correcte)
-reactor = Reactor()
+# ============================
+#   CONFIGURATION EMAIL ICI
+# ============================
+
+reactor = Reactor(
+    email_from="nouha.hadhri@enis.tn",
+    email_password="cewdxwatrudddovz",
+    email_to="hadil.hssaien@enis.tn"
+)
+
+# Lancer le système de réaction
 reactor.react(result)
