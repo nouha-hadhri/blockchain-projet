@@ -14,12 +14,12 @@ def main():
     
     # Si les clés existent déjà, les charger
     if os.path.exists(keys_file):
-        print("📂 Chargement des clés existantes...\n")
+        print(" Chargement des clés existantes...\n")
         with open(keys_file, "r") as f:
             saved_keys = json.load(f)
         accounts = [Account.from_key(k["privateKey"]) for k in saved_keys]
     else:
-        print("🔑 Génération de nouvelles clés...\n")
+        print(" Génération de nouvelles clés...\n")
         accounts = [Account.create() for _ in range(3)]
         
         keys_to_save = [
@@ -34,7 +34,7 @@ def main():
         with open(keys_file, "w") as f:
             json.dump(keys_to_save, f, indent=2)
         
-        print("💾 Clés sauvegardées dans .keys.json\n")
+        print(" Clés sauvegardées dans .keys.json\n")
     
     print("=== Public Keys (à copier dans le serveur) ===")
     for i, acc in enumerate(accounts):

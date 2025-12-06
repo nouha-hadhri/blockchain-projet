@@ -24,7 +24,7 @@ def send_to_ai_analysis(auth_data):
         response = requests.post(AI_ANALYSIS_URL, json=auth_data, timeout=5)
         return response.json()
     except Exception as e:
-        print(f"❌ Erreur envoi vers AI: {e}")
+        print(f" Erreur envoi vers AI: {e}")
         return None
 
 @app.route("/auth/register", methods=["POST"])
@@ -158,7 +158,7 @@ def verify():
             attack_prob = predictions[0].get("attack_probability", 0)
             
             if is_attack:
-                print(f"⚠️  ATTAQUE DÉTECTÉE! Probabilité: {attack_prob}")
+                print(f"  ATTAQUE DÉTECTÉE! Probabilité: {attack_prob}")
                 # Tu peux bloquer l'authentification ici
                 return jsonify({
                     "authenticated": False,
@@ -194,7 +194,7 @@ def list_users():
     return jsonify(user_list)
 
 if __name__ == "__main__":
-    print("🚀 Server running on http://localhost:3000")
-    print("✅ CORS enabled")
-    print("🤖 AI Analysis enabled on http://localhost:5000")
+    print(" Server running on http://localhost:3000")
+    print(" CORS enabled")
+    print(" AI Analysis enabled on http://localhost:5000")
     app.run(host="0.0.0.0", port=3000, debug=True)
