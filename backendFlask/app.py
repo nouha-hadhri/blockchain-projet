@@ -1,16 +1,18 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import uuid
 from eth_account.messages import encode_defunct
 from eth_account import Account
 from web3 import Web3
 
 app = Flask(__name__)
+CORS(app)  # Active CORS pour toutes les routes
 
 # Stockage en mémoire
 users = {}
 challenges = {}
 
-# Initialiser Web3 (pour les utilitaires de vérification)
+# Initialiser Web3
 w3 = Web3()
 
 @app.route("/auth/register", methods=["POST"])
@@ -73,19 +75,14 @@ def verify():
     valid_keys = []
     
     for proof in signatures:
-        # Trouver la clé publique correspondante
         entry = next((k for k in user["publicKeys"] if k["id"] == proof["keyId"]), None)
         if not entry:
             continue
         
         try:
-            # Encoder le message comme dans ethers.js
             message = encode_defunct(text=nonce)
-            
-            # Récupérer l'adresse du signataire
             recovered_address = Account.recover_message(message, signature=proof["signature"])
             
-            # Vérifier si l'adresse correspond
             if recovered_address.lower() == entry["key"].lower():
                 valid_count += 1
                 valid_keys.append(proof["keyId"])
@@ -120,4 +117,5 @@ def list_users():
 
 if __name__ == "__main__":
     print("🚀 Server running on http://localhost:3000")
+    print("✅ CORS enabled for all origins")
     app.run(host="0.0.0.0", port=3000, debug=True)
